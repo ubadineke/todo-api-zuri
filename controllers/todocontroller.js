@@ -2,7 +2,8 @@ const { v4: uuid } = require("uuid");
 
 //Add Todo
 exports.addTodo = (req, res) =>{
-    res.send({type:"POST"})
+  console.log(req.body);
+  res.send({type:"POST"})
   }
 
 //Update Todo

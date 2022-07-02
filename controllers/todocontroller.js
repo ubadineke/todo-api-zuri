@@ -1,22 +1,34 @@
+const Todo = require('../models/todomodel');
 const { v4: uuid } = require("uuid");
 
 //Add Todo
-exports.addTodo = (req, res) =>{
-  console.log(req.body);
-  res.send({type:"POST"})
+exports.addTodo = (req, res, next) =>{
+  Todo.create(req.body).then( todo => {
+    res.send(todo)
+  }).catch(next); 
   }
 
 //Update Todo
 exports.updateTodo = (req, res) =>{
-    res.send({type:"PUT"})
+  const id = req.params.id;
+  Todo.findByIdAndUpdate({_id:id}, req.body).then(() =>{
+    Todo.findOne({_id:id}).then((todo) => {
+      res.send(todo);
+    })
+  })
   }
 
 //Delete Todo
 exports.deleteTodo = (req, res) =>{
-    res.send({type:"DELETE"})
+  const id = req.params.id;
+  Todo.findByIdAndRemove({_id:id}).then((todo) => {
+    res.send(todo);
+  });
   }
 
 //Fetch All Todos
 exports.getTodos = (req, res) =>{
-    res.send({type:"GET"})
+    Todo.find({}).then((todo) => {
+      res.send(todo);
+    })
   }
